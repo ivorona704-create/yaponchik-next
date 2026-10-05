@@ -1,0 +1,511 @@
+@import "tailwindcss";
+
+/* next-themes ставит класс .dark на <html> */
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================================
+   БАЗОВЫЕ ТОКЕНЫ shadcn
+   Нейтральная основа для хаба, аудита и демо переключателя.
+   Концепты переопределяют их ниже в своих [data-concept].
+   ============================================================ */
+
+:root {
+  --radius: 0.75rem;
+
+  --background: oklch(0.985 0.002 90);
+  --foreground: oklch(0.21 0.006 250);
+  --card: oklch(1 0 0);
+  --card-foreground: var(--foreground);
+  --popover: oklch(1 0 0);
+  --popover-foreground: var(--foreground);
+  --primary: oklch(0.21 0.006 250);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.955 0.004 90);
+  --secondary-foreground: var(--foreground);
+  --muted: oklch(0.955 0.004 90);
+  --muted-foreground: oklch(0.52 0.008 250);
+  --accent: oklch(0.955 0.004 90);
+  --accent-foreground: var(--foreground);
+  --destructive: oklch(0.58 0.21 27);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(0.9 0.004 250);
+  --input: oklch(0.9 0.004 250);
+  --ring: oklch(0.6 0.02 250);
+
+  /* Общие для всех концептов */
+  --free-from: 800;
+  --gift-from: 1500;
+}
+
+.dark {
+  --background: oklch(0.17 0.005 250);
+  --foreground: oklch(0.96 0.003 90);
+  --card: oklch(0.21 0.006 250);
+  --card-foreground: var(--foreground);
+  --popover: oklch(0.21 0.006 250);
+  --popover-foreground: var(--foreground);
+  --primary: oklch(0.96 0.003 90);
+  --primary-foreground: oklch(0.21 0.006 250);
+  --secondary: oklch(0.26 0.006 250);
+  --secondary-foreground: var(--foreground);
+  --muted: oklch(0.26 0.006 250);
+  --muted-foreground: oklch(0.68 0.008 250);
+  --accent: oklch(0.28 0.006 250);
+  --accent-foreground: var(--foreground);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: oklch(0.55 0.02 250);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Фирменные цвета концептов — доступны как bg-brand, text-gold и т.д. */
+  --color-brand: var(--brand);
+  --color-brand-ink: var(--brand-ink);
+  --color-gold: var(--gold);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-hairline: var(--hairline);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --font-sans: var(--font-onest), ui-sans-serif, system-ui, sans-serif;
+  --font-mincho: var(--font-mincho), "Times New Roman", serif;
+  --font-dela: var(--font-dela), ui-sans-serif, system-ui, sans-serif;
+  --font-golos: var(--font-golos), ui-sans-serif, system-ui, sans-serif;
+  --font-unbounded: var(--font-unbounded), ui-sans-serif, system-ui, sans-serif;
+  --font-rampart: var(--font-rampart), ui-sans-serif, system-ui, sans-serif;
+  --font-manrope: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-jp: "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif JP", "MS Mincho",
+    serif;
+
+  --ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: var(--brand, var(--foreground));
+    color: var(--brand-on, var(--background));
+  }
+  /* Якоря меню не должны уезжать под липкую панель */
+  [id] {
+    scroll-margin-top: var(--anchor-offset, 96px);
+  }
+}
+
+/* ============================================================
+   КОНЦЕПТ 1 — «МОХ». Вечер в зале.
+   Палитра снята с фото зала: мшистая стена, золотые буквы,
+   зелёный бархат банкеток, тёплый свет плетёных ламп.
+   ============================================================ */
+
+[data-concept="moss"] {
+  --brand: #c8a45a;
+  --brand-on: #0f1c14;
+  --gold: #c8a45a;
+  --lamp: #ffcf7a;
+  --velvet: #1f3a2b;
+
+  --background: #f4eee2;
+  --foreground: #14261b;
+  --surface: #fbf7ef;
+  --surface-2: #ece3d3;
+  --hairline: rgb(20 38 27 / 14%);
+
+  --card: #fbf7ef;
+  --card-foreground: var(--foreground);
+  --popover: #fbf7ef;
+  --popover-foreground: var(--foreground);
+  --primary: #14261b;
+  --primary-foreground: #f4eee2;
+  --secondary: #ece3d3;
+  --secondary-foreground: var(--foreground);
+  --muted: #ece3d3;
+  /* 4.9:1 на бумаге — состав блюда читается */
+  --muted-foreground: #5c6a5e;
+  --accent: #ece3d3;
+  --accent-foreground: var(--foreground);
+  --border: rgb(20 38 27 / 14%);
+  --input: rgb(20 38 27 / 20%);
+  --ring: #8a6a2a;
+  /* золото на светлом даёт 2.4:1 — для текста берём приглушённое */
+  --gold-ink: #7a5c22;
+
+  /* шапка 64 + липкая панель меню 104 */
+  --anchor-offset: 176px;
+}
+
+.dark [data-concept="moss"] {
+  --background: #0f1c14;
+  --foreground: #f1e9d8;
+  --surface: #16261c;
+  --surface-2: #1f3a2b;
+  --hairline: rgb(241 233 216 / 14%);
+
+  --card: #16261c;
+  --card-foreground: var(--foreground);
+  --popover: #16261c;
+  --popover-foreground: var(--foreground);
+  --primary: #c8a45a;
+  --primary-foreground: #0f1c14;
+  --secondary: #1f3a2b;
+  --secondary-foreground: var(--foreground);
+  --muted: #1f3a2b;
+  --muted-foreground: #9fb0a2;
+  --accent: #1f3a2b;
+  --accent-foreground: var(--foreground);
+  --border: rgb(241 233 216 / 14%);
+  --input: rgb(241 233 216 / 20%);
+  --ring: #c8a45a;
+  --gold-ink: #d8b877;
+}
+
+/* ============================================================
+   КОНЦЕПТ 2 — «КОНВЕЙЕР». Кайтен-суши.
+   Оранжевый взят из печатного меню, чтобы бренд остался узнаваем.
+   ============================================================ */
+
+[data-concept="kaiten"] {
+  --brand: #e2561a;
+  --brand-on: #ffffff;
+  --belt: #dfe4e8;
+  --belt-2: #c6ced5;
+
+  --background: #fbf8f3;
+  --foreground: #17181a;
+  --surface: #ffffff;
+  --surface-2: #f1ece4;
+  --hairline: rgb(23 24 26 / 12%);
+
+  --card: #ffffff;
+  --card-foreground: var(--foreground);
+  --popover: #ffffff;
+  --popover-foreground: var(--foreground);
+  --primary: #e2561a;
+  --primary-foreground: #ffffff;
+  --secondary: #f1ece4;
+  --secondary-foreground: var(--foreground);
+  --muted: #f1ece4;
+  --muted-foreground: #5d6064;
+  --accent: #f1ece4;
+  --accent-foreground: var(--foreground);
+  --border: rgb(23 24 26 / 12%);
+  --input: rgb(23 24 26 / 18%);
+  --ring: #e2561a;
+
+  --anchor-offset: 118px;
+}
+
+.dark [data-concept="kaiten"] {
+  --brand: #ff7a2f;
+  --brand-on: #141517;
+  --belt: #2a2e33;
+  --belt-2: #3a4047;
+
+  --background: #141517;
+  --foreground: #f4f2ee;
+  --surface: #1d1f22;
+  --surface-2: #26292d;
+  --hairline: rgb(244 242 238 / 14%);
+
+  --card: #1d1f22;
+  --card-foreground: var(--foreground);
+  --popover: #1d1f22;
+  --popover-foreground: var(--foreground);
+  --primary: #ff7a2f;
+  --primary-foreground: #141517;
+  --secondary: #26292d;
+  --secondary-foreground: var(--foreground);
+  --muted: #26292d;
+  --muted-foreground: #a3a7ad;
+  --accent: #26292d;
+  --accent-foreground: var(--foreground);
+  --border: rgb(244 242 238 / 14%);
+  --input: rgb(244 242 238 / 20%);
+  --ring: #ff7a2f;
+}
+
+/* ============================================================
+   КОНЦЕПТ 3 — «СЭНСЭЙ». Манга с ворчливым поваром.
+   Киноварь с повязки маскота, тушь, бумага васи.
+   ============================================================ */
+
+[data-concept="sensei"] {
+  --brand: #d7261e;
+  --brand-on: #f6f1e7;
+  --ink: #111111;
+  --washi: #f6f1e7;
+
+  --background: #f6f1e7;
+  --foreground: #111111;
+  --surface: #fffdf7;
+  --surface-2: #e8e1d3;
+  --hairline: rgb(17 17 17 / 18%);
+
+  --card: #fffdf7;
+  --card-foreground: var(--foreground);
+  --popover: #fffdf7;
+  --popover-foreground: var(--foreground);
+  --primary: #111111;
+  --primary-foreground: #f6f1e7;
+  --secondary: #e8e1d3;
+  --secondary-foreground: var(--foreground);
+  --muted: #e8e1d3;
+  --muted-foreground: #55524b;
+  --accent: #e8e1d3;
+  --accent-foreground: var(--foreground);
+  --border: rgb(17 17 17 / 18%);
+  --input: rgb(17 17 17 / 26%);
+  --ring: #d7261e;
+
+  --anchor-offset: 110px;
+}
+
+.dark [data-concept="sensei"] {
+  --brand: #ff4136;
+  --brand-on: #0c0c0c;
+  --ink: #f6f1e7;
+
+  --background: #0c0c0c;
+  --foreground: #f6f1e7;
+  --surface: #161616;
+  --surface-2: #232323;
+  --hairline: rgb(246 241 231 / 20%);
+
+  --card: #161616;
+  --card-foreground: var(--foreground);
+  --popover: #161616;
+  --popover-foreground: var(--foreground);
+  --primary: #f6f1e7;
+  --primary-foreground: #0c0c0c;
+  --secondary: #232323;
+  --secondary-foreground: var(--foreground);
+  --muted: #232323;
+  --muted-foreground: #a09b91;
+  --accent: #232323;
+  --accent-foreground: var(--foreground);
+  --border: rgb(246 241 231 / 20%);
+  --input: rgb(246 241 231 / 26%);
+  --ring: #ff4136;
+}
+
+/* ============================================================
+   КОНЦЕПТ 4 — «КЛАССИКА». Самый первый сайт «Япончика».
+   Палитра снята с фото зала: светлое дерево столов, бежевая
+   обивка, серый бетон стен и красный от напитков — он и
+   работает акцентом. Логотип-маскот стоит в шапке.
+   ============================================================ */
+
+[data-concept="classic"] {
+  --brand: #d22e2e;
+  --brand-on: #ffffff;
+  --wood: #b98f55;
+  --wood-dark: #86653a;
+
+  --background: #f2ebe1;
+  --foreground: #232426;
+  --surface: #fcf8f2;
+  --surface-2: #e8dccb;
+  --hairline: rgb(35 36 38 / 12%);
+
+  --card: #fcf8f2;
+  --card-foreground: var(--foreground);
+  --popover: #fcf8f2;
+  --popover-foreground: var(--foreground);
+  --primary: #d22e2e;
+  --primary-foreground: #ffffff;
+  --secondary: #e8dccb;
+  --secondary-foreground: var(--foreground);
+  --muted: #e8dccb;
+  /* 4.67:1 на песочном — состав блюда 13 px читается */
+  --muted-foreground: #6e716f;
+  --accent: #fbe4e2;
+  --accent-foreground: var(--foreground);
+  --border: rgb(35 36 38 / 12%);
+  --input: rgb(35 36 38 / 22%);
+  --ring: #d22e2e;
+
+  --anchor-offset: 170px;
+}
+
+.dark [data-concept="classic"] {
+  --brand: #ef4b4b;
+  --brand-on: #1a1512;
+  --wood: #d3b07a;
+  --wood-dark: #b98f55;
+
+  --background: #1a1714;
+  --foreground: #f2ebe1;
+  --surface: #221e1a;
+  --surface-2: #2e2821;
+  --hairline: rgb(242 235 225 / 14%);
+
+  --card: #221e1a;
+  --card-foreground: var(--foreground);
+  --popover: #221e1a;
+  --popover-foreground: var(--foreground);
+  --primary: #ef4b4b;
+  --primary-foreground: #1a1512;
+  --secondary: #2e2821;
+  --secondary-foreground: var(--foreground);
+  --muted: #2e2821;
+  --muted-foreground: #a9a299;
+  --accent: #3a2420;
+  --accent-foreground: var(--foreground);
+  --border: rgb(242 235 225 / 14%);
+  --input: rgb(242 235 225 / 22%);
+  --ring: #ef4b4b;
+}
+
+/* ============================================================
+   ОБЩИЕ УТИЛИТЫ
+   ============================================================ */
+
+/* Плёночное зерно. 5% на экране, тайл 200×200 — выше читается грязью. */
+@utility grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-size: 200px 200px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Растр манги для «Сэнсэя» */
+@utility halftone {
+  background-image: radial-gradient(
+    var(--halftone-color, currentColor) 1px,
+    transparent 1.1px
+  );
+  background-size: 6px 6px;
+}
+
+/* Точечный пунктир между названием блюда и ценой — как в печатном меню */
+@utility leader {
+  flex: 1;
+  min-width: 1.5rem;
+  height: 0;
+  align-self: end;
+  margin-bottom: 0.32em;
+  border-bottom: 1px dotted color-mix(in oklab, currentColor 30%, transparent);
+}
+
+/* Появление через блюр: 0.9s, шаг 50 мс внутри группы */
+@utility rise {
+  animation: rise 0.9s var(--ease-soft) both;
+  animation-delay: var(--d, 0ms);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@utility marquee-track {
+  animation: marquee var(--marquee-duration, 40s) linear infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise {
+    animation: none;
+  }
+  .marquee-track {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Маска прожектора «Мха». Держим её в CSS, а не в inline-стиле:
+   иначе серверная и клиентская разметка расходятся на гидрации. */
+@utility spotlight-mask {
+  --r: 260px;
+  --x: 50%;
+  --y: 40%;
+  -webkit-mask-image: radial-gradient(
+    circle var(--r) at var(--x) var(--y),
+    #000 0%,
+    rgb(0 0 0 / 0.75) 45%,
+    transparent 72%
+  );
+  mask-image: radial-gradient(
+    circle var(--r) at var(--x) var(--y),
+    #000 0%,
+    rgb(0 0 0 / 0.75) 45%,
+    transparent 72%
+  );
+}
+
+@utility spotlight-glow {
+  background: radial-gradient(
+    circle calc(var(--r, 260px) * 1.1) at var(--x, 50%) var(--y, 40%),
+    rgb(255 207 122 / 0.55),
+    transparent 70%
+  );
+}
+
+/* «Сэнсэй» прячет системный курсор — вместо него палочки */
+html.sensei-cursor,
+html.sensei-cursor * {
+  cursor: none;
+}
+
+/* Скрытая полоса прокрутки для горизонтальных лент */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
